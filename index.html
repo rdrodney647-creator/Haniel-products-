@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-MZ">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SIMULADOR DE COMPRAS DE DIAMANTES 🛒🛍️</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#12161a;--card:#1a2026;--line:#2c343c;--ink:#f2f4f7;--mute:#9aa4b0;--acc:#e62e7d;--ok:#2ee6a6;--err:#ff3b3b;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f5f6f8;--card:#fff;--line:#d9dde3;--ink:#161a1f;--mute:#5d6672;--acc:#d01d6a;--ok:#0b9c6c;--err:#d11a1a}}
+:root[data-theme="light"]{--bg:#f5f6f8;--card:#fff;--line:#d9dde3;--ink:#161a1f;--mute:#5d6672;--acc:#d01d6a;--ok:#0b9c6c;--err:#d11a1a}
+:root[data-theme="dark"]{--bg:#12161a;--card:#1a2026;--line:#2c343c;--ink:#f2f4f7;--mute:#9aa4b0;--acc:#e62e7d;--ok:#2ee6a6;--err:#ff3b3b}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 "DM Sans",system-ui,sans-serif}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px 30px}
+header{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;padding:14px 0}
+.hgrp{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.ic{width:38px;height:38px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);display:grid;place-items:center;cursor:pointer;color:var(--ink);font:700 15px "DM Sans"}
+.help{display:flex;gap:8px;margin:14px 0}
+.hbtn{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:12px 6px;color:var(--ink);text-decoration:none;font-size:13px}
+.hbtn i{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--acc);color:#fff;font-style:normal;font-weight:700}
+.faq{background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:14px;margin-bottom:10px}
+.faq b{display:block;margin-bottom:4px}
+.faq span{color:var(--mute);font-size:14px}
+.logo{font:800 13px "Unbounded",sans-serif;letter-spacing:-.01em;max-width:52vw;line-height:1.25}
+.tab{font:600 14px "DM Sans",sans-serif;color:var(--ink);background:transparent;border:1.5px solid var(--line);border-radius:10px;padding:8px 12px;cursor:pointer}
+h1{font:800 clamp(24px,6vw,34px)/1.12 "Unbounded",sans-serif;letter-spacing:-.03em;margin:8px 0}
+h2{font:600 17px "DM Sans",sans-serif;color:var(--acc);margin:22px 0 10px}
+.lead{color:var(--mute);margin:0}
+input{width:100%;font:inherit;color:var(--ink);background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:14px}
+input:focus{border-color:var(--acc)}
+:is(button,input):focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.btn{width:100%;font:700 16px "DM Sans",sans-serif;background:var(--acc);color:#fff;border:0;border-radius:14px;padding:15px;cursor:pointer;margin-top:10px}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.who{display:none;margin-top:10px;padding:12px 14px;border-radius:12px;background:var(--card);border:1.5px solid var(--ok)}
+.who.on{display:block}.who small{color:var(--mute)}
+.pk,.mt{display:grid;gap:8px}.pk{grid-template-columns:1fr 1fr}.mt{grid-template-columns:1fr 1fr}
+.p,.m{font:inherit;color:var(--ink);background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:12px;cursor:pointer;text-align:left}
+.m{text-align:center;font-weight:700}
+.p b{display:block}.p span{color:var(--acc);font-weight:700;display:block;margin-top:2px}
+.p[aria-pressed=true],.m[aria-pressed=true]{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
+.mb{height:150px;border-radius:16px;display:grid;place-items:center;margin-top:12px;color:#fff;font:800 30px "Unbounded",sans-serif;letter-spacing:-.02em}
+.dots{display:flex;gap:6px;margin:12px 0 0 14px}.dots i{width:18px;height:8px;border-radius:4px;background:var(--line)}.dots i.on{width:44px;background:var(--acc)}
+.cnt{text-align:right;color:var(--mute);font-size:13px;margin:4px 6px 0}
+.det{background:var(--card);border-radius:14px;padding:6px 16px}
+.row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.row:last-child{border:0}.row span:first-child{color:var(--mute)}.row span:last-child{text-align:right;word-break:break-all}
+.ov{position:fixed;inset:0;background:var(--bg);z-index:9;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;padding-top:calc(24px + env(safe-area-inset-top,0px));padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+.ov.on{display:flex}
+.ov>div{width:100%;max-width:420px}
+.big{font:800 40px "Unbounded",sans-serif;margin:14px 0 4px}
+.dot{width:110px;height:110px;border-radius:50%;margin:0 auto;display:grid;place-items:center;font:800 56px "DM Sans";color:#fff;background:var(--err)}
+.dot.ok{background:var(--ok);color:#06241a}
+.bar{height:4px;border-radius:2px;background:var(--line);margin:22px 0;overflow:hidden}.bar i{display:block;height:100%;width:40%;background:var(--acc)}
+.seg{display:flex;gap:6px;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:4px;margin:10px 0}
+.seg button{flex:1;font:600 14px "DM Sans";color:var(--mute);background:transparent;border:0;border-radius:9px;padding:9px;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--acc);color:#fff}
+.sub{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 0}
+.item{background:var(--card);border-radius:14px;padding:14px;margin-bottom:10px;cursor:pointer;border:1.5px solid var(--line);width:100%;text-align:left;color:var(--ink);font:inherit}
+.item small{color:var(--mute)}
+.ref{font:700 17px "Unbounded",sans-serif;color:var(--ok);word-break:break-all}
+.note{color:var(--mute);font-size:14px;margin:10px 0 0}
+footer{color:var(--mute);font-size:13px;border-top:1px solid var(--line);padding-top:14px;margin-top:26px}
+[hidden]{display:none!important}
+
+@media (prefers-reduced-motion:no-preference){.bar i{animation:sl 1.4s ease-in-out infinite}@keyframes sl{from{margin-left:-40%}to{margin-left:100%}}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><div class="logo">SIMULADOR DE COMPRAS DE DIAMANTES 🛒🛍️</div><div class="hgrp"><button class="ic" id="ajuda" aria-label="Central de ajuda"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3v5Z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3v5Z"/></svg></button><button class="tab" id="tc">Ver compras</button></div></header>
+<h1>Diamantes de Free Fire.</h1>
+<p class="lead">Recarga via ID. Pague com M-Pesa ou e-Mola.</p>
+
+<div class="seg" id="seg"><button aria-pressed="true" data-k="rapida">Entrega Rápida</button><button aria-pressed="false" data-k="id">Recarga Via ID</button></div>
+
+<h2>Pacotes</h2>
+<div class="sub" id="pkAll"></div>
+
+<h2>Verificar ID FF</h2>
+<p class="note" style="margin:0 0 8px">Verifique bem o ID e o nome antes de continuar. A recarga será enviada para o ID inserido.</p>
+<input id="uid" inputmode="numeric" placeholder="ID do jogador" autocomplete="off">
+<button class="btn" id="vf" disabled>Verificar</button>
+<div class="who" id="who"></div>
+
+<div id="rest" hidden>
+<h2>Pacote</h2><div class="pk" id="pk"></div>
+<h2>Pagamento</h2><div class="mt" id="mt"></div>
+<div class="mb" id="mb"></div><div class="dots" id="dots"></div>
+<div style="margin-top:12px"><input id="tel" inputmode="numeric" maxlength="9" placeholder="Número M-Pesa"></div><div class="cnt" id="cnt">0/9</div>
+<h2>Detalhes da compra</h2>
+<div class="det" id="det"></div>
+<button class="btn" id="fin" disabled>Finalizar compra</button>
+</div>
+
+<h2>Assinaturas</h2>
+<div class="sub" id="sub"></div>
+
+<footer>Modo demonstração: nome da conta, estoque, códigos e pagamento são simulados. Para teste, um número terminado em 0 simula pagamento recusado.</footer>
+</div>
+
+<div class="ov" id="ov"><div id="ovc"></div></div>
+
+<script>
+// DEMO. Em produção, estas funções chamam o SEU servidor:
+// lookupId -> consulta o nome da conta no fornecedor/API da Garena
+// pay -> envia o pedido de pagamento ao M-Pesa/e-Mola; o PIN é digitado no telemóvel do cliente, nunca aqui
+// os códigos oficiais da Garena ficam só no servidor
+var P=[
+{d:100,b:10,mt:95,s:["1789846669437","1789846669438"]},
+{d:210,b:21,mt:185,s:["1789847712204"]},
+{d:530,b:53,mt:460,s:["1789848823315"]},
+{d:1080,b:108,mt:880,s:["1789849934426"]},
+{d:2200,b:230,mt:1750,s:[]}
+];
+var ASS=[{n:"Semanal",d:450,mt:180},{n:"Mensal",d:2600,mt:850}];
+var M=["M-Pesa","e-Mola"],MC=["#e60000","#e24a00"],pi=-1,mi=0,acct=null,modo="rapida";
+var $=function(i){return document.getElementById(i)};
+var fmt=function(v){return v.toFixed(1)+" MT"};
+var dg=function(s){return s.replace(/\D/g,"")};
+function load(){try{return JSON.parse(localStorage.getItem("wz_compras")||"[]")}catch(e){return[]}}
+function save(a){try{localStorage.setItem("wz_compras",JSON.stringify(a))}catch(e){}}
+function lookupId(id){return new Promise(function(r){setTimeout(function(){
+ if(!id||id.length<8){r({ok:false});return}
+ r({ok:true,name:"WZ FLASH ACC 🎁"});
+},800)})}
+function ov(h){$("ovc").innerHTML=h;$("ov").classList.add("on")}
+function off(){$("ov").classList.remove("on")}
+function fail(msg){ov("<div class='dot'>!</div><div class='big'>FALHA!</div><p class='lead'>"+msg+"</p><button class='btn' id='bk'>Voltar</button>");$("bk").onclick=off}
+$("uid").oninput=function(){acct=null;$("who").className="who";$("rest").hidden=true;$("vf").disabled=!(dg($("uid").value).length>=8&&dg($("uid").value).length<=12)};
+$("vf").onclick=function(){
+ var id=dg($("uid").value);$("vf").disabled=true;$("vf").textContent="Verificando…";
+ lookupId(id).then(function(r){
+  $("vf").textContent="Verificar";$("vf").disabled=false;
+  if(!r.ok){$("who").className="who on";$("who").style.borderColor="var(--err)";$("who").textContent="ID não encontrado. Confira e tente de novo.";return}
+  acct={id:id,name:r.name};$("who").style.borderColor="";
+  $("who").className="who on";$("who").innerHTML="<small>Conta encontrada</small><br><b>"+r.name+"</b><br><small>ID "+id+"</small>";
+  $("rest").hidden=false;draw();
+ });
+};
+function draw(){
+ if(typeof drawPkAll=="function")drawPkAll();
+ $("pk").innerHTML="";
+ P.forEach(function(p,i){var b=document.createElement("button");b.className="p";b.setAttribute("aria-pressed",i==pi);
+  b.innerHTML="<b>"+p.d+" + "+p.b+" 💎</b><span>"+fmt(p.mt)+"</span>";b.onclick=function(){pi=i;draw()};$("pk").appendChild(b)});
+ $("mt").innerHTML="";
+ M.forEach(function(n,i){var b=document.createElement("button");b.className="m";b.setAttribute("aria-pressed",i==mi);b.textContent=n;
+  b.onclick=function(){mi=i;$("tel").placeholder="Número "+n;draw()};$("mt").appendChild(b)});
+ $("mb").style.background=MC[mi];$("mb").textContent=M[mi];$("dots").innerHTML=M.map(function(n,i){return "<i class='"+(i==mi?"on":"")+"'></i>"}).join("");
+ var p=pi>=0?P[pi]:null;
+ $("det").innerHTML=[["PRODUTO",p?p.d+" + "+p.b+" Diamantes":"—"],["ID",acct?acct.id:"—"],["NOME",acct?acct.name:"—"],["GAME/PLATF","Free Fire"],["PREÇO",p?fmt(p.mt):"—"]]
+  .map(function(r){return "<div class='row'><span>"+r[0]+"</span><span>"+r[1]+"</span></div>"}).join("");
+ chk();
+}
+function chk(){var t=dg($("tel").value).length;$("cnt").textContent=t+"/9";$("fin").disabled=!(acct&&pi>=0&&mi>=0&&t==9)}
+$("tel").oninput=chk;
+$("fin").onclick=function(){
+ var p=P[pi],tel=dg($("tel").value),mm=M[mi];
+ ov("<p class='lead'>Verificando estoque…</p><div class='bar'><i></i></div>");
+ setTimeout(function(){
+  if(!p.s.length){fail("Compra não concluída: pacote sem estoque. Nenhum valor foi cobrado.");return}
+  ov("<h2 style='margin-top:0'>Processando pagamento…</h2><p class='lead'>Foi enviado um pedido de pagamento de <b>"+fmt(p.mt)+"</b> para o número "+tel+" ("+mm+"). Digite o seu PIN no telemóvel (não digite aqui) e aguarde um instante…</p><div class='bar'><i></i></div><button class='btn ghost' id='cx'>Cancelar</button>");
+  var dead=false;$("cx").onclick=function(){dead=true;off()};
+  setTimeout(function(){
+   if(dead)return;
+   if(tel.slice(-1)=="0"){fail("Pagamento realizado sem sucesso");return}
+   var code=p.s.shift(),a=load();
+   a.unshift({t:new Date().toLocaleString("pt-PT"),uid:acct.id,name:acct.name,d:p.d,b:p.b,mt:p.mt,m:mm,code:code});save(a);draw();
+   ov("<div class='dot ok'>✓</div><div class='big' style='font-size:28px'>Compra concluída</div><p class='lead'>Seu código de recarga está em Ver compras.</p><button class='btn' id='vc'>Ver compras</button><button class='btn ghost' id='bk'>Fechar</button>");
+   $("vc").onclick=compras;$("bk").onclick=off;
+  },2600);
+ },900);
+};
+function compras(){
+ var a=load();
+ var h="<div style='text-align:left'><h2 style='margin-top:0'>Minhas compras</h2>"+(a.length?a.map(function(x,i){return "<button class='item' data-i='"+i+"'><b>"+x.d+" + "+x.b+" 💎</b> · "+fmt(x.mt)+"<br><small>"+x.t+" · ID "+x.uid+"</small></button>"}).join(""):"<p class='lead'>Ainda não há compras.</p>")+"<button class='btn ghost' id='bk'>Fechar</button></div>";
+ ov(h);$("bk").onclick=off;
+ document.querySelectorAll(".item").forEach(function(b){b.onclick=function(){det(a[b.dataset.i])}});
+}
+function det(x){
+ var rows=[["ID",x.uid],["USERNAME",x.name],["DATA",x.t],["REFERÊNCIA","<span class='ref'>"+x.code+"</span>"],["TOTAL PAGO",fmt(x.mt)+" ("+x.m+")"]];
+ ov("<div style='text-align:left'><h2 style='margin-top:0'>Free Fire · "+x.d+" + "+x.b+" Diamantes</h2><div class='det'>"+rows.map(function(r){return "<div class='row'><span>"+r[0]+"</span><span>"+r[1]+"</span></div>"}).join("")+"</div><p class='note'>Para receber: abra o Garena Topup Center, vá em Redeem, entre com a conta do ID acima e cole a referência. A conta deve ser da mesma região do voucher.</p><button class='btn' id='cp'>Copiar referência</button><button class='btn ghost' id='bk'>Voltar</button></div>");
+ $("cp").onclick=function(){try{navigator.clipboard.writeText(x.code);$("cp").textContent="Copiado"}catch(e){}};$("bk").onclick=compras;
+}
+$("tc").onclick=compras;
+$("ajuda").onclick=function(){
+ var faqs=[["Como resgatar diamantes via código FF","Abra o Garena Topup Center, vá em Redeem, entre com a conta do ID usado na compra e cole a referência recebida."],
+ ["Minha compra está pendente, o que fazer?","Caso sua compra esteja pendente, por favor aguarde; ela será processada em breve."],
+ ["Recarreguei Semanal e aparece Pendente","Por favor, aguarde, vai entrar."]];
+ ov("<div style='text-align:left'><h2 style='margin-top:0'>Central de ajuda</h2><p class='lead' style='margin-bottom:0'>Clique numa opção para entrar em contacto.</p>"+
+ "<div class='help'><a class='hbtn' href='https://wa.me/258855614345' target='_blank' rel='noopener'><i>W</i>WhatsApp<br>🇲🇿 +258 855614345</a><a class='hbtn' href='sms:+258855614345'><i>S</i>SMS<br>🇲🇿 +258 855614345</a></div>"+
+ "<h2>Perguntas frequentes</h2>"+faqs.map(function(f){return "<div class='faq'><b>"+f[0]+"</b><span>"+f[1]+"</span></div>"}).join("")+
+ "<button class='btn ghost' id='bk'>Fechar</button></div>");
+ $("bk").onclick=off;
+};
+document.querySelectorAll("#seg button").forEach(function(b){b.onclick=function(){
+ modo=b.dataset.k;document.querySelectorAll("#seg button").forEach(function(x){x.setAttribute("aria-pressed",x==b)});
+}});
+function drawSub(){
+ $("sub").innerHTML=ASS.map(function(a){return "<button class='p' data-n='"+a.n+"'><b>"+a.n+"</b><span>"+a.d+" 💎</span><span>"+fmt(a.mt)+"</span></button>"}).join("");
+ $("sub").querySelectorAll("button").forEach(function(b){b.onclick=function(){
+  $("uid").scrollIntoView({behavior:"smooth",block:"center"});$("uid").focus();
+ }});
+}
+drawSub();
+function drawPkAll(){
+ $("pkAll").innerHTML=P.map(function(p,i){return "<button class='p' data-i='"+i+"' aria-pressed='"+(i==pi)+"'><b>"+p.d+" + "+p.b+" 💎</b><span>"+fmt(p.mt)+"</span></button>"}).join("");
+ $("pkAll").querySelectorAll("button").forEach(function(b){b.onclick=function(){
+  pi=Number(b.dataset.i);drawPkAll();draw();
+  $("uid").scrollIntoView({behavior:"smooth",block:"center"});$("uid").focus();
+ }});
+}
+drawPkAll();
+draw();
+</script>
+</body>
+</html>
